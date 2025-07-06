@@ -2,7 +2,7 @@ pipeline {
   agent any
   environment {
     REGISTRY_CRED_ID = 'docker-registry-creds'
-    DOCKER_REGISTRY  = 'idirym92/serviceclient'
+    DOCKER_REGISTRY  = 'idirym92/commandes-service'
     IMAGE_TAG        = "${env.BUILD_NUMBER}"
   }
 
