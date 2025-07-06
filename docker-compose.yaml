@@ -1,5 +1,17 @@
 version: '3.8'
 services:
+  postgres:
+    external: true
+
+  rabbitmq:
+    external: true
+
+  prometheus:
+    external: true
+
+  grafana:
+    external: true
+
   order-service:
     build: .
     container_name: order-service
@@ -12,7 +24,7 @@ services:
       DATABASE_URL: "postgresql://openpg:openpgpwd@postgres:5432/order_db"
       RABBITMQ_URL:  "amqp://guest:guest@rabbitmq:5672/"
       PROM_URL:       "http://prometheus:9090"
-      GRAFANA: "http://prometheus:3000"
+      GRAFANA_URL:    "http://grafana:3000"
     ports:
       - "8003:8003"
     networks:
