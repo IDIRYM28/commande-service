@@ -17,7 +17,7 @@ pipeline {
 	  steps {
 		bat '''
 		  docker run --rm ^
-			-e CLIENT_DB_URL="sqlite:///:memory:" ^
+			-e ORDER_DB_URL="sqlite:///:memory:" ^
 			-v "%WORKSPACE%\\commandes-service":/app ^
 			-w /app ^
 			python:3.11-slim ^
