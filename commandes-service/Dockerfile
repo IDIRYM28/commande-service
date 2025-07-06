@@ -17,7 +17,7 @@ COPY ./app ./app
 EXPOSE 8003
 
 # → Syntaxe ENV : pas d'espaces autour du `=`
-ENV CLIENT_DB_URL="postgresql://openpg:openpgpwd@db-client:5432/orders_db"
+ENV ORDER_DB_URL="postgresql://openpg:openpgpwd@db-client:5432/orders_db"
 ENV RABBITMQ_URL="amqp://guest:guest@rabbitmq:5672/"
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8003"]
