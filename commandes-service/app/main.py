@@ -1,14 +1,18 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
+from starlette_exporter import PrometheusMiddleware, handle_metrics
 from .database import SessionLocal, engine, Base
 from . import models, schemas, crud
 from . import consumer
 import asyncio
+
 # Création des tables à l'initialisation
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Order Service", version="1.0")
+app.add_middleware(PrometheusMiddleware)
+app.add_route("/metrics", handle_metrics)
 @app.on_event("startup")
 async def startup_event():
     # Démarre le consumer en tâche de fond
