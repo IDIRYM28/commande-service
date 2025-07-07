@@ -38,3 +38,4 @@ typing-extensions==4.13.2
 Faker
 prometheus-client
 starlette-exporter
+aio-pika
