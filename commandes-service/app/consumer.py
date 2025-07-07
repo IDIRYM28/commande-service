@@ -14,8 +14,8 @@ load_dotenv(find_dotenv())
 
 RABBIT_URL = os.getenv("RABBITMQ_URL")
 params = pika.URLParameters(RABBIT_URL)
-EXCHANGE_NAME = "client"
-QUEUE_NAME    = "client"
+EXCHANGE_NAME = "clients"
+QUEUE_NAME    = "customer"
 
 
 async def handle_client_event(message: AbstractIncomingMessage) -> None:
@@ -23,7 +23,6 @@ async def handle_client_event(message: AbstractIncomingMessage) -> None:
         payload = json.loads(message.body)
         event_type = message.routing_key        # e.g. "client.created" or "client.updated"
         data = payload.get("data", payload)     # selon votre format
-
         db = SessionLocal()
         try:
             client_id = data["id"]
@@ -48,20 +47,16 @@ async def rabbitmq_consumer() -> None:
     # 1) Connexion robuste (reconnect automatique)
     connection = await connect_robust(RABBIT_URL)
     channel    = await connection.channel()
-
     # 2) Déclarez l’exchange et la queue
-    exchange = await channel.declare_exchange(
-        EXCHANGE_NAME,
-        ExchangeType.TOPIC,
-        durable=True
-    )
+    exchange = await channel.get_exchange(
+        'clients',
+        ensure=False)
     queue = await channel.declare_queue(
         QUEUE_NAME,
         durable=True
     )
-
     # 3) Lie tous les events client.*
-    await queue.bind(exchange, routing_key="client.*")
+    await queue.bind(exchange,routing_key="#")
 
     # 4) Lance la consommation
     await queue.consume(handle_client_event)

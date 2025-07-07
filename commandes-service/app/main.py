@@ -12,7 +12,8 @@ app = FastAPI(title="Order Service", version="1.0")
 @app.on_event("startup")
 async def startup_event():
     # Démarre le consumer en tâche de fond
-    asyncio.create_task(consumer.rabbitmq_consumer())
+    print('qsdqssqdsd')
+    await asyncio.create_task(consumer.rabbitmq_consumer())
 def get_db():
     db = SessionLocal()
     try:
