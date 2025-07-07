@@ -39,3 +39,4 @@ Faker
 prometheus-client
 starlette-exporter
 aio-pika
+trio
