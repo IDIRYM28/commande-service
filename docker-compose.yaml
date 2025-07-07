@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   commandes-service:
-    build: .
+    build: ./commandes-service
     container_name: commandes-service
 
     environment:
